@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>welcome page</title>
+    <meta name="viewport" content="width", initial-scale=1.0">
+    <title>lien page</title>
 </head>
 <body>
     <style>
@@ -24,6 +25,7 @@
         }
         button:hover {
             background-color: #b03dc4;
+            
         }
         h2 {
             color: #d54ae2;
@@ -31,21 +33,16 @@
         h3 {
             color: #333;
         }
-        
 
     </style>
-    <h2>Welcome ! Who are you?</h2>
-    <button onclick="chooseRole('student')"><h3>I am a Student</h3></button>
-    <button onclick="chooseRole('teacher')"><h3>I am a Teacher</h3></button>
-    <script>
-        function chooseRole(role) {
-            if (role === 'student') {
-                window.location.href = 'student_deshabor.html'; // Redirect to student page
-            } else if (role === 'teacher') {
-                window.location.href = 'teacher_deshabor.html'; // Redirect to teacher page
-            }
-        }
-    </script>
-
+    <div class="login-container">
+        <h2>Exam login</h2>
+        <form action="student_deshabor.html" method="post">
+            <div class="input-box">
+                <input type="url" id="examlink" placeholder="paste the exam link here" required >
+                <button onclick="goToExam()" >Go to Exam</button> 
+            </div>
+    </div>
+    
 </body>
 </html>

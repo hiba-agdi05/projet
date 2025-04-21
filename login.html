@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet href="style.css">  
+  
+  <title>examonline</title>
+  
+</head>
+<body>
+  <style>
+    
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Arial", sans-serif;
+  }
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f3f4f6; 
+    color: #333; 
+  }
+
+  .login-box {
+    background: #ffffff; 
+    padding: 20px;
+    border-radius: 10px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    width: 300px;
+  }
+
+  .login-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #d54ae2; 
+  }
+
+  .input-box {
+    margin-bottom: 15px;
+    position: relative;
+  }
+
+  .input-box input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    font-size: 14px;
+  }
+
+  .input-box input:focus {
+    border-color: #d54ae2; 
+  }
+
+  .remember-forget {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    margin-bottom: 15px;
+  }
+
+  .remember-forget a {
+    color: #d54ae2;
+    text-decoration: none;
+  }
+
+  .remember-forget a:hover {
+    text-decoration: underline;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    background:#d54ae2;; 
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #d54ae2;; 
+  }
+
+  .register-link {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 10px;
+  }
+
+  .register-link a {
+    color: #d54ae2;;
+    text-decoration: none;
+  }
+
+  .register-link a:hover {
+    text-decoration: underline;
+    
+  }
+
+  </style>
+    <div class="login-box ">
+      <form action="">
+        <h2>Login</h2>
+        <div class="input-box">
+          <input type="Email" placeholder="Email" required>
+        </div>
+        <div class="input-box">
+          <input type="password" placeholder="Password" required>
+          <i class="bx bxs-lock-alt"></i>
+        </div>
+        <div class="remember-forget">
+          <label><input type="checkbox">Remenber me</label>
+          <a href="#">Forgot Password? </a>
+        </div>
+        <button type="submit">Login</button>
+        <div class="register-link">
+          <p> Don't have account?
+          <a href="register.html">Register</a>
+          </p>
+        </div>
+      </form>
+
+
+
+
+
+
+    </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
