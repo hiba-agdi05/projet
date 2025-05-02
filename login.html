@@ -11,7 +11,7 @@
     body {
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(to bottom, #fdfcfb 0%, #e2d1c3 100%);
+  background: linear-gradient(to bottom,  #f9f7fd, #e9dff3);
   font-family: sans-serif;
   display: flex;
   align-items: center;
@@ -83,6 +83,16 @@ button[type="submit"]:hover {
   text-decoration: underline;
   font-weight: 500;
 }
+.switch-msg a:hover {
+  color: #d54ae2;
+  text-decoration: none;
+}
+.switch-msg a:active {
+  color: #d54ae2;
+  text-decoration: none;
+}
+
+
 
   </style>
   <div class="container">
@@ -91,7 +101,7 @@ button[type="submit"]:hover {
       <p class="subtitle">Login to continue</p>
       <form id="loginForm" class="form">
         <label for="email">Email</label>
-        <input type="email" id="email" placeholder="you@example.com" required />
+        <input type="email" id="email" placeholder="you@gmail.com" required />
 
         <label for="password">Password</label>
         <input type="password" id="password" placeholder="••••••••" required />
@@ -104,6 +114,32 @@ button[type="submit"]:hover {
       </div>
     </div>
   </div>
-  <script src="login.js"></script>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const errorMsg = document.getElementById('errorMsg');
+    errorMsg.textContent = '';
+  
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+  
+      const data = await res.json();
+  
+      if (!res.ok) {
+        errorMsg.textContent = data.message || 'Invalid credentials.';
+        return;
+        }
+      location.href = '/dashboard.html'; 
+    } catch (err) {
+      errorMsg.textContent = 'Network or server error!';
+    }
+  });
+  </script>
 </body>
 </html>
