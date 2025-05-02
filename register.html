@@ -2,112 +2,148 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registration Form</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #f9f7fd, #e9dff3);
-      padding: 10px;
-     
+      background: linear-gradient(to bottom right, #f9f7fd, #e9dff3);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
     }
 
     form {
       background: white;
-      padding: 40px;
-      border-radius: 100px;
-      max-width: 600px;
-      margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
+
+    h1 {
+      text-align: center;
+      color: #d54ae2;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
     label {
       display: block;
-      margin-top: 10px;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #333;
     }
+
     input, select {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
       margin-top: 5px;
-      border: 1px solid #ccc; 
+      border: 1px solid #ccc;
       border-radius: 5px;
       font-size: 14px;
-}
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
     input:focus, select:focus {
-      border-color: #d54ae2; 
+      border-color: #d54ae2;
+      box-shadow: 0 0 5px rgba(213, 74, 226, 0.5);
       outline: none;
     }
+
     button {
       display: block;
       margin: 20px auto 0;
-      padding: 10px;
+      padding: 12px 20px;
       background-color: #d54ae2;
       color: white;
       border: none;
-      border-radius: 10px;
+      border-radius: 5px;
       cursor: pointer;
-      font-size: 18px;
-      transition: background-color 0.3s;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
 
-    }
     button:hover {
-      background-color: #b13bbd; 
+      background-color: #b13bbd;
+      transform: scale(1.05);
     }
+
     .error {
       color: red;
       font-size: 0.9em;
+      margin-top: 5px;
     }
-    h1 {
-      text-align: center;
-      color:#d54ae2;
-      margin-bottom: 20px;
-    }
-    @media (max-width: 200px) {
+
+    @media (max-width: 600px) {
       form {
         padding: 20px;
       }
+
+      h1 {
+        font-size: 20px;
+      }
+
       button {
-        width: 20%;
+        font-size: 14px;
       }
     }
-
   </style>
 </head>
 <body>
   <form id="signupForm">
     <h1><strong>Sign Up</strong></h1>
-    <label>Email:
-      <input type="email" name="email" required>
-    </label>
-    <label>Last Name:
-      <input type="text" name="lastName" required>
-    </label>
-    <label>First Name:
-      <input type="text" name="firstName" required>
-    </label>
-    <label>Date of Birth:
-      <input type="date" name="birthDate" required>
-    </label>
-    <label>Gender:
-      <select name="gender" required>
-        <option value="">Select</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-      </select>
-    </label>
-    <label>Institution:
-      <input type="text" name="institution" required>
-    </label>
-    <label>Program:
-      <input type="text" name="program" required>
-    </label>
-    <label>User Type:
-      <select name="userType" required>
-        <option value="">Select</option>
-        <option value="student">Student</option>
-        <option value="teacher">Teacher</option>
-      </select>
-    </label>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" placeholder="Enter your email" required aria-label="Email">
+    <div class="error" id="emailError"></div>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required aria-label="Last Name">
+    <div class="error" id="lastNameError"></div>
+
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required aria-label="First Name">
+    <div class="error" id="firstNameError"></div>
+
+    <label for="birthDate">Date of Birth:</label>
+    <input type="date" id="birthDate" name="birthDate" required aria-label="Date of Birth">
+    <div class="error" id="birthDateError"></div>
+
+    <label for="gender">Gender:</label>
+    <select id="gender" name="gender" required aria-label="Gender">
+      <option value="">Select</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+    </select>
+    <div class="error" id="genderError"></div>
+
+    <label for="institution">Institution:</label>
+    <input type="text" id="institution" name="institution" placeholder="Enter your institution" required aria-label="Institution">
+    <div class="error" id="institutionError"></div>
+
+    <label for="program">Program:</label>
+    <input type="text" id="program" name="program" placeholder="Enter your program" required aria-label="Program">
+    <div class="error" id="programError"></div>
+
+    <label for="userType">User Type:</label>
+    <select id="userType" name="userType" required aria-label="User Type">
+      <option value="">Select</option>
+      <option value="student">Student</option>
+      <option value="teacher">Teacher</option>
+    </select>
+    <div class="error" id="userTypeError"></div>
+
     <button type="submit">Register</button>
-    <div class="error" id="errorMsg"></div>
   </form>
 
   <script>
@@ -117,15 +153,29 @@
       const data = new FormData(form);
       const entries = Object.fromEntries(data.entries());
 
+      // Clear previous error messages
+      document.querySelectorAll('.error').forEach(error => error.textContent = '');
+
+      let hasError = false;
+
+      // Validate email
       if (!entries.email.includes('@')) {
-        document.getElementById('errorMsg').innerText = "Invalid email.";
-        return;
+        document.getElementById('emailError').textContent = "Invalid email address.";
+        hasError = true;
       }
 
-      document.getElementById('errorMsg').innerText = '';
-      alert("Successfully registered: " + entries.firstName + " " + entries.lastName);
-      
-      // You can send data to the server here using fetch()
+      // Validate required fields
+      ['lastName', 'firstName', 'birthDate', 'gender', 'institution', 'program', 'userType'].forEach(field => {
+        if (!entries[field]) {
+          document.getElementById(`${field}Error`).textContent = `${field} is required.`;
+          hasError = true;
+        }
+      });
+
+      if (hasError) return;
+
+      // Success message
+      alert(`Successfully registered: ${entries.firstName} ${entries.lastName}`);
     });
   </script>
 </body>
