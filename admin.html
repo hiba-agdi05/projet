@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Création d'examen</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fef7ff;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    h2 {
+      color: #ba68c8;
+      margin-bottom: 10px;
+    }
+
+    .section {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 20px rgba(186, 104, 200, 0.1);
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 15px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .btn {
+      margin-top: 20px;
+      background-color: #ba68c8;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #9c4caf;
+    }
+
+    #generatedLink {
+      margin-top: 15px;
+      color: #6a1b9a;
+      font-weight: 600;
+    }
+
+    .card {
+      background-color: #f8eaff;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 15px;
+      border-left: 5px solid #ba68c8;
+    }
+
+    .card strong {
+      color: #7b1fa2;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="section">
+    <h2>🎓 Création d’examen</h2>
+    <label for="examTitle">Titre de l'examen</label>
+    <input type="text" id="examTitle" placeholder="Exemple : Examen S4 - Informatique" />
+
+    <label for="examDesc">Description</label>
+    <textarea id="examDesc" placeholder="Brève description de l'examen..."></textarea>
+
+    <label for="targetAudience">Public ciblé</label>
+    <input type="text" id="targetAudience" placeholder="Exemple : 2e année SMI, groupe A" />
+
+    <button class="btn" onclick="generateLink()">Générer le lien d'accès 🔗</button>
+    <p id="generatedLink"></p>
+  </div>
+
+  <div class="section">
+    <h2>📝 Ajout de questions</h2>
+
+    <label for="questionType">Type de question</label>
+    <select id="questionType" onchange="toggleTolerance()">
+      <option value="qcm">QCM</option>
+      <option value="directe">Question directe</option>
+    </select>
+
+    <label for="questionText">Énoncé de la question</label>
+    <textarea id="questionText" placeholder="Écrire l’énoncé de la question..."></textarea>
+
+    <div id="optionsDiv">
+      <label for="qcmOptions">Options (QCM - séparées par des virgules)</label>
+      <input type="text" id="qcmOptions" placeholder="Option 1, Option 2, Option 3..." />
+    </div>
+
+    <div id="toleranceDiv" style="display: none;">
+      <label for="tolerance">Taux de tolérance (%)</label>
+      <input type="number" id="tolerance" value="10" />
+    </div>
+
+    <label for="duration">Durée (en secondes)</label>
+    <input type="number" id="duration" value="60" />
+
+    <label for="points">Note</label>
+    <input type="number" id="points" value="1" />
+
+    <button class="btn" onclick="ajouterQuestion()">Ajouter la question ➕</button>
+
+    <div id="questionList"></div>
+  </div>
+
+  <script>
+    function generateLink() {
+      const link = "https://exam.local/exam/" + Math.random().toString(36).substring(2, 8);
+      document.getElementById("generatedLink").textContent = "🔗 Lien généré : " + link;
+    }
+
+    function toggleTolerance() {
+      const type = document.getElementById("questionType").value;
+      document.getElementById("toleranceDiv").style.display = type === "directe" ? "block" : "none";
+      document.getElementById("optionsDiv").style.display = type === "qcm" ? "block" : "none";
+    }
+
+    function ajouterQuestion() {
+      const type = document.getElementById("questionType").value;
+      const enonce = document.getElementById("questionText").value;
+      const duration = document.getElementById("duration").value;
+      const points = document.getElementById("points").value;
+      const options = document.getElementById("qcmOptions").value;
+      const tolerance = document.getElementById("tolerance").value;
+
+      let contenu = `<div class="card"><strong>${type.toUpperCase()}</strong><br>`;
+      contenu += `<em>${enonce}</em><br>`;
+      contenu += `⏱️ Durée : ${duration}s | 🧮 Note : ${points}<br>`;
+      if (type === "qcm") contenu += `📋 Options : ${options}<br>`;
+      if (type === "directe") contenu += `🎯 Tolérance : ${tolerance}%`;
+      contenu += `</div>`;
+
+      document.getElementById("questionList").innerHTML += contenu;
+
+      // Reset fields
+      document.getElementById("questionText").value = "";
+      document.getElementById("qcmOptions").value = "";
+    }
+  </script>
+
+</body>
+</html>
