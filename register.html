@@ -1,181 +1,323 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registration Form</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Formulaire d'inscription</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root {
+      --primary: #c23fe3;
+      --bg: #f4effa;
+      --form-bg: rgba(255, 255, 255, 0.6);
+      --radius: 12px;
+    }
+
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
     body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom right, #f9f7fd, #e9dff3);
-      padding: 20px;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right bottom, #fbe9ff, #dfd7f3);
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       min-height: 100vh;
+      padding: 30px;
     }
 
     form {
-      background: white;
-      padding: 30px;
-      border-radius: 15px;
-      max-width: 500px;
+      background: var(--form-bg);
+      border: 1px solid rgba(0,0,0,0.1);
+      backdrop-filter: blur(12px);
+      padding: 40px 30px;
       width: 100%;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      max-width: 520px;
+      border-radius: var(--radius);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.7s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     h1 {
       text-align: center;
-      color: #d54ae2;
-      margin-bottom: 20px;
-      font-size: 24px;
+      font-size: 26px;
+      color: var(--primary);
+      margin-bottom: 30px;
     }
 
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-      color: #333;
+    .form-group {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .form-group i {
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      transform: translateY(-50%);
+      color: #aaa;
     }
 
     input, select {
       width: 100%;
-      padding: 10px;
-      margin-top: 5px;
+      padding: 14px 12px 14px 36px;
+      font-size: 15px;
       border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 14px;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      border-radius: var(--radius);
+      background: transparent;
+      color: #222;
+      transition: border-color 0.3s ease;
     }
 
     input:focus, select:focus {
-      border-color: #d54ae2;
-      box-shadow: 0 0 5px rgba(213, 74, 226, 0.5);
+      border-color: var(--primary);
       outline: none;
     }
 
-    button {
+    label {
       display: block;
-      margin: 20px auto 0;
-      padding: 12px 20px;
-      background-color: #d54ae2;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #555;
+      position: relative;
     }
 
-    button:hover {
-      background-color: #b13bbd;
-      transform: scale(1.05);
+    label[data-tooltip]:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      white-space: nowrap;
+      z-index: 10;
     }
 
     .error {
       color: red;
-      font-size: 0.9em;
+      font-size: 0.85em;
       margin-top: 5px;
+    }
+
+    .success {
+      text-align: center;
+      color: green;
+      margin-top: 20px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 16px;
+      transition: transform 0.2s ease, background 0.3s ease;
+    }
+
+    button:hover {
+      background: #a62cc3;
+      transform: translateY(-2px);
+    }
+
+    .hidden {
+      display: none;
     }
 
     @media (max-width: 600px) {
       form {
-        padding: 20px;
-      }
-
-      h1 {
-        font-size: 20px;
-      }
-
-      button {
-        font-size: 14px;
+        padding: 30px 20px;
       }
     }
   </style>
 </head>
 <body>
-  <form id="signupForm">
-    <h1><strong>Sign Up</strong></h1>
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" placeholder="Enter your email" required aria-label="Email">
-    <div class="error" id="emailError"></div>
+  <form id="signupForm" novalidate>
+    <h1>Inscription</h1>
 
-    <label for="lastName">Last Name:</label>
-    <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required aria-label="Last Name">
-    <div class="error" id="lastNameError"></div>
+    <div class="form-group">
+      <label for="email" data-tooltip="Entrez votre adresse email valide">Email</label>
+      <i class="fa fa-envelope"></i>
+      <input type="email" id="email" name="email" required />
+      <div class="error" id="emailError"></div>
+    </div>
 
-    <label for="firstName">First Name:</label>
-    <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required aria-label="First Name">
-    <div class="error" id="firstNameError"></div>
+    <div class="form-group">
+      <label for="lastName" data-tooltip="Entrez votre nom de famille">Nom</label>
+      <i class="fa fa-user"></i>
+      <input type="text" id="lastName" name="lastName" required />
+      <div class="error" id="lastNameError"></div>
+    </div>
 
-    <label for="birthDate">Date of Birth:</label>
-    <input type="date" id="birthDate" name="birthDate" required aria-label="Date of Birth">
-    <div class="error" id="birthDateError"></div>
+    <div class="form-group">
+      <label for="firstName" data-tooltip="Entrez votre prénom">Prénom</label>
+      <i class="fa fa-user"></i>
+      <input type="text" id="firstName" name="firstName" required />
+      <div class="error" id="firstNameError"></div>
+    </div>
 
-    <label for="gender">Gender:</label>
-    <select id="gender" name="gender" required aria-label="Gender">
-      <option value="">Select</option>
-      <option value="Male">Male</option>
-      <option value="Female">Female</option>
-    </select>
-    <div class="error" id="genderError"></div>
+    <div class="form-group">
+      <label for="birthDate" data-tooltip="Sélectionnez votre date de naissance">Date de naissance</label>
+      <i class="fa fa-calendar"></i>
+      <input type="date" id="birthDate" name="birthDate" required />
+      <div class="error" id="birthDateError"></div>
+    </div>
 
-    <label for="institution">Institution:</label>
-    <input type="text" id="institution" name="institution" placeholder="Enter your institution" required aria-label="Institution">
-    <div class="error" id="institutionError"></div>
+    <div class="form-group">
+      <label for="gender" data-tooltip="Sélectionnez votre sexe">Sexe</label>
+      <i class="fa fa-venus-mars"></i>
+      <select id="gender" name="gender" required>
+        <option value="">Sélectionnez</option>
+        <option value="Male">Homme</option>
+        <option value="Female">Femme</option>
+      </select>
+      <div class="error" id="genderError"></div>
+    </div>
 
-    <label for="program">Program:</label>
-    <input type="text" id="program" name="program" placeholder="Enter your program" required aria-label="Program">
-    <div class="error" id="programError"></div>
+    <div class="form-group">
+      <label for="institution" data-tooltip="Entrez le nom de votre établissement">Établissement</label>
+      <i class="fa fa-building"></i>
+      <input type="text" id="institution" name="institution" required />
+      <div class="error" id="institutionError"></div>
+    </div>
 
-    <label for="userType">User Type:</label>
-    <select id="userType" name="userType" required aria-label="User Type">
-      <option value="">Select</option>
-      <option value="student">Student</option>
-      <option value="teacher">Teacher</option>
-    </select>
-    <div class="error" id="userTypeError"></div>
+    <div class="form-group">
+      <label for="program" data-tooltip="Sélectionnez votre filière d'études">Filière</label>
+      <i class="fa fa-graduation-cap"></i>
+      <select id="program" name="program" required>
+        <option value="">Sélectionnez</option>
+        <option value="Mathématique">Mathématique</option>
+        <option value="Physique">Physique</option>
+        <option value="Informatique">Informatique</option>
+        <option value="Chimie">Chimie</option>
+        <option value="Autre">Autre</option>
+      </select>
+      <div class="error" id="programError"></div>
+    </div>
 
-    <button type="submit">Register</button>
+    <div class="form-group hidden" id="otherProgramGroup">
+      <label for="otherProgram" data-tooltip="Entrez le nom de votre filière si elle n'est pas listée">Autre Filière</label>
+      <i class="fa fa-pencil-alt"></i>
+      <input type="text" id="otherProgram" name="otherProgram" placeholder="Précisez votre filière" />
+    </div>
+
+    <div class="form-group">
+      <label for="userType" data-tooltip="Sélectionnez votre type d'utilisateur">Type d'utilisateur</label>
+      <i class="fa fa-users"></i>
+      <select id="userType" name="userType" required>
+        <option value="">Sélectionnez</option>
+        <option value="student">Étudiant</option>
+        <option value="teacher">Enseignant</option>
+      </select>
+      <div class="error" id="userTypeError"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="password" data-tooltip="Choisissez un mot de passe sécurisé">Mot de passe</label>
+      <i class="fa fa-lock"></i>
+      <input type="password" id="password" name="password" required />
+      <div class="error" id="passwordError"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="confirmPassword" data-tooltip="Confirmez votre mot de passe">Confirmer le mot de passe</label>
+      <i class="fa fa-lock"></i>
+      <input type="password" id="confirmPassword" name="confirmPassword" required />
+      <div class="error" id="confirmPasswordError"></div>
+    </div>
+
+    <button type="submit">S'inscrire</button>
+    <div class="success" id="successMessage"></div>
   </form>
 
   <script>
-    document.getElementById('signupForm').addEventListener('submit', function(e) {
+    const form = document.getElementById('signupForm');
+    const otherProgramGroup = document.getElementById('otherProgramGroup');
+    const programSelect = document.getElementById('program');
+
+    programSelect.addEventListener('change', function () {
+      otherProgramGroup.classList.toggle('hidden', this.value !== 'Autre');
+    });
+
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
-      const form = e.target;
       const data = new FormData(form);
       const entries = Object.fromEntries(data.entries());
 
-      // Clear previous error messages
-      document.querySelectorAll('.error').forEach(error => error.textContent = '');
-
+      document.querySelectorAll('.error').forEach(el => el.textContent = '');
+      document.getElementById('successMessage').textContent = '';
       let hasError = false;
 
-      // Validate email
-      if (!entries.email.includes('@')) {
-        document.getElementById('emailError').textContent = "Invalid email address.";
+      const requiredFields = {
+        email: 'Email',
+        lastName: 'Nom',
+        firstName: 'Prénom',
+        birthDate: 'Date de naissance',
+        gender: 'Sexe',
+        institution: 'Établissement',
+        program: 'Filière',
+        userType: 'Type d’utilisateur',
+        password: 'Mot de passe',
+        confirmPassword: 'Confirmation du mot de passe'
+      };
+
+      const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+      if (!emailRegex.test(entries.email)) {
+        document.getElementById('emailError').textContent = "Adresse email invalide.";
         hasError = true;
       }
 
-      // Validate required fields
-      ['lastName', 'firstName', 'birthDate', 'gender', 'institution', 'program', 'userType'].forEach(field => {
+      for (const field in requiredFields) {
         if (!entries[field]) {
-          document.getElementById(`${field}Error`).textContent = `${field} is required.`;
+          document.getElementById(field + 'Error').textContent = requiredFields[field] + " est requis.";
           hasError = true;
         }
-      });
+      }
 
-      if (hasError) return;
+      if (entries.password !== entries.confirmPassword) {
+        document.getElementById('confirmPasswordError').textContent = "Les mots de passe ne correspondent pas.";
+        hasError = true;
+      }
 
-      // Success message
-      alert(`Successfully registered: ${entries.firstName} ${entries.lastName}`);
+      const birthDate = new Date(entries.birthDate);
+      const today = new Date();
+      if (birthDate > today) {
+        document.getElementById('birthDateError').textContent = "Date de naissance invalide.";
+        hasError = true;
+      }
+
+      if (!hasError) {
+        const filiere = entries.program === 'Autre' ? entries.otherProgram || 'Autre' : entries.program;
+
+        document.getElementById('successMessage').textContent =
+          `Inscription réussie : ${entries.firstName} ${entries.lastName} (${filiere}). Redirection...`;
+
+        localStorage.setItem('userEmail', entries.email);
+        localStorage.setItem('userPassword', entries.password);
+
+        form.reset();
+        otherProgramGroup.classList.add('hidden');
+
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 1500);
+      }
     });
   </script>
 </body>

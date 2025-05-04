@@ -1,145 +1,168 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Login — Exam platform</title>
+  <title>Connexion — Plateforme d'examen</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="login.css">
-</head>
-<body>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
     body {
-  margin: 0;
-  min-height: 100vh;
-  background: linear-gradient(to bottom,  #f9f7fd, #e9dff3);
-  font-family: sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.container {
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.card {
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.07), 0 1.5px 5px rgba(0,0,0,0.04);
-  padding: 32px 28px;
-  width: 100%;
-  max-width: 360px;
-  text-align: center;
-}
-.title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #d54ae2;
-  margin-bottom: 0.5rem;
-}
-.subtitle {
-  color: #888;
-  margin-bottom: 22px;
-}
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-input[type="email"], input[type="password"] {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #e2e2e2;
-  font-size: 1rem;
-}
-button[type="submit"] {
-  margin-top: 10px;
-  padding: 0.75rem;
-  background: #d54ae2;
-  color: #fff;
-  font-weight: 600;
-  border: none;
-  border-radius: 7px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.18s;
-}
-button[type="submit"]:hover {
-  background: #d54ae2;
-}
-.error {
-  color: #ea384c;
-  margin-top: 10px;
-  min-height: 20px;
-}
-.switch-msg {
-  margin-top: 28px;
-  color: #555;
-  font-size: 0.97rem;
-}
-.switch-msg a {
-  color: #d54ae2;
-  text-decoration: underline;
-  font-weight: 500;
-}
-.switch-msg a:hover {
-  color: #d54ae2;
-  text-decoration: none;
-}
-.switch-msg a:active {
-  color: #d54ae2;
-  text-decoration: none;
-}
-
-
-
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #f9f7fd, #e9dff3);
+      font-family: sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07), 0 1.5px 5px rgba(0, 0, 0, 0.04);
+      padding: 32px 28px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+    }
+    .title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #d54ae2;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      color: #888;
+      margin-bottom: 22px;
+    }
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .input-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .input-container i {
+      position: absolute;
+      left: 10px;
+      color: #888;
+    }
+    input[type="email"], input[type="password"] {
+      padding: 10px 10px 10px 30px; /* Adjust padding to accommodate icon */
+      border-radius: 5px;
+      border: 1px solid #e2e2e2;
+      font-size: 1rem;
+      width: 100%;
+    }
+    button[type="submit"] {
+      margin-top: 10px;
+      padding: 0.75rem;
+      background: #d54ae2;
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 7px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    button[type="submit"]:hover {
+      background: #b13bbd;
+    }
+    .error {
+      color: #ea384c;
+      margin-top: 10px;
+      min-height: 20px;
+    }
+    .switch-msg {
+      margin-top: 28px;
+      color: #555;
+      font-size: 0.97rem;
+    }
+    .switch-msg a {
+      color: #d54ae2;
+      text-decoration: underline;
+      font-weight: 500;
+    }
+    .switch-msg a:hover,
+    .switch-msg a:active {
+      color: #b13bbd;
+      text-decoration: none;
+    }
   </style>
+</head>
+<body>
   <div class="container">
     <div class="card">
-      <h1 class="title">Exam Platform</h1>
-      <p class="subtitle">Login to continue</p>
+      <h1 class="title">Plateforme d'examen</h1>
+      <p class="subtitle">Connectez-vous pour continuer</p>
       <form id="loginForm" class="form">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="you@gmail.com" required />
+        <!-- Email Input -->
+        <div class="input-container">
+          <i class="fa fa-envelope"></i>
+          <input type="email" id="email" placeholder="vous@gmail.com"  required />
+        </div>
 
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="••••••••" required />
+        <!-- Password Input -->
+        <div class="input-container">
+          <i class="fa fa-lock"></i>
+          <input type="password" id="password" placeholder="••••••••" required />
+        </div>
 
-        <button type="submit" id="loginBtn">Login</button>
+        <!-- Submit Button -->
+        <button type="submit" id="loginBtn">Connexion</button>
+        
+        <!-- Error Message -->
         <div id="errorMsg" class="error"></div>
       </form>
+      
+      <!-- Switch to Register -->
       <div class="switch-msg">
-        Don't have an account? <a href="register.html">Register</a>
+        Vous n'avez pas de compte ? <a href="register.html">Inscrivez-vous</a>
       </div>
     </div>
   </div>
+
   <script>
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    const errorMsg = document.getElementById('errorMsg');
-    errorMsg.textContent = '';
-  
-    try {
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-  
-      const data = await res.json();
-  
-      if (!res.ok) {
-        errorMsg.textContent = data.message || 'Invalid credentials.';
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const errorMsg = document.getElementById('errorMsg');
+      errorMsg.textContent = '';
+
+      if (!email || !password) {
+        errorMsg.textContent = 'Veuillez remplir tous les champs.';
         return;
+      }
+
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          errorMsg.textContent = data.message || 'Identifiants invalides.';
+          return;
         }
-      location.href = '/dashboard.html'; 
-    } catch (err) {
-      errorMsg.textContent = 'Network or server error!';
-    }
-  });
+
+        window.location.href = '/dashboard.html';
+      } catch (err) {
+        errorMsg.textContent = 'Erreur réseau ou serveur !';
+      }
+    });
   </script>
 </body>
 </html>
