@@ -80,7 +80,7 @@
     .error {
       color: #ea384c;
       margin-top: 10px;
-      min-height: 20px;
+      min-height: 20px; 
     }
     .switch-msg {
       margin-top: 28px;
@@ -153,15 +153,16 @@
 
         const data = await res.json();
 
-        if (!res.ok) {
-          errorMsg.textContent = data.message || 'Identifiants invalides.';
-          return;
-        }
-
-        window.location.href = '/dashboard.html';
-      } catch (err) {
-        errorMsg.textContent = 'Erreur réseau ou serveur !';
-      }
+        if (data.role === 'etudiant') {
+      window.location.href = '/etudiant.html';
+    } else if (data.role === 'professeur') {
+      window.location.href = '/professeur.html';
+    } else {
+      errorMsg.textContent = 'Rôle inconnu. Contactez l\'administrateur.';
+    }
+  } catch (err) {
+    errorMsg.textContent = 'Erreur réseau ou serveur !';
+  }
     });
   </script>
 </body>
