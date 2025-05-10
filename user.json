@@ -1,0 +1,12 @@
+[
+  {
+    "email": "etudiant@example.com",
+    "password": "$2b$10$EIX/mTbbbdk5Xs8v5DAaIu28Khq9S2z1x5A3Chbh0i5F9Szyhpt7u",  
+    "role": "etudiant"
+  },
+  {
+    "email": "professeur@example.com",
+    "password": "$2b$10$7YomlwQxD.k8g7Hdz6eK0OZoqxUlgwE6B9eEK2Wvnn3rO59zXbU2m",  
+    "role": "professeur"
+  }
+]
