@@ -108,7 +108,7 @@
         <!-- Email Input -->
         <div class="input-container">
           <i class="fa fa-envelope"></i>
-          <input type="email" id="email" placeholder="vous@gmail.com"  required />
+          <input type="email" id="email" placeholder="vous@gmail.com" required />
         </div>
 
         <!-- Password Input -->
@@ -132,7 +132,7 @@
   </div>
 
   <script>
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
@@ -145,7 +145,7 @@
       }
 
       try {
-        const res = await fetch('/api/login', {
+        const res = await fetch('http://localhost:3000/api/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })
@@ -153,16 +153,19 @@
 
         const data = await res.json();
 
-        if (data.role === 'etudiant') {
-      window.location.href = '/etudiant.html';
-    } else if (data.role === 'professeur') {
-      window.location.href = '/professeur.html';
-    } else {
-      errorMsg.textContent = 'Rôle inconnu. Contactez l\'administrateur.';
-    }
-  } catch (err) {
-    errorMsg.textContent = 'Erreur réseau ou serveur !';
-  }
+        if (res.ok) {  // Si la réponse est 200 (OK)
+          if (data.role === 'etudiant') {
+            window.location.href = '/etudiant.html';
+          } else if (data.role === 'professeur') {
+            window.location.href = '/professeur.html';
+          }
+        } else {
+          errorMsg.textContent = data.message || 'Erreur lors de la connexion';
+        }
+      } catch (err) {
+        errorMsg.textContent = 'Erreur réseau ou serveur !';
+        console.error('Erreur:', err);
+      }
     });
   </script>
 </body>
