@@ -1,82 +1,63 @@
-onst express = require('express');
-const bodyParser = require('body-parser');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { MongoClient } = require('mongodb');
-const cors = require('cors');
-
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const bcrypt = require('bcrypt');
 const app = express();
 const PORT = 3000;
-const SECRET_KEY = 'your_secret_key';
 
-// Middleware
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public')); // Serve les fichiers HTML, CSS, JS
+app.use(express.json());
+app.use(express.static('public'));
 
-// MongoDB setup
-const uri = 'mongodb://localhost:27017';
-const dbName = 'exam_platform';
-let usersCollection;
+const USERS_FILE = path.join(__dirname, 'users.json');
 
-MongoClient.connect(uri, { useUnifiedTopology: true })
-  .then(client => {
-    console.log('✅ Connecté à MongoDB');
-    const db = client.db(dbName);
-    usersCollection = db.collection('users');
-
-    app.listen(PORT, () => {
-      console.log(🚀 Serveur démarré sur http://localhost:${PORT});
-    });
-  })
-  .catch(err => console.error('❌ Erreur MongoDB :', err));
-
-// Register route
-app.post('/api/register', async (req, res) => {
-  const { email, password, firstName, lastName, role } = req.body;
-
+// Lire les utilisateurs depuis le fichier JSON
+function readUsers() {
   try {
-    const existingUser = await usersCollection.findOne({ email });
-    if (existingUser) return res.status(400).json({ message: 'Utilisateur existe déjà' });
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    await usersCollection.insertOne({
-      email,
-      password: hashedPassword,
-      firstName,
-      lastName,
-      role
-    });
-
-    res.status(201).json({ message: 'Inscription réussie' });
+    const data = fs.readFileSync(USERS_FILE, 'utf-8');
+    return JSON.parse(data);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Erreur serveur lors de l\'inscription' });
-  }
-});
-
-// Login route
-app.post('/api/login', async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const user = await usersCollection.findOne({ email });
-    if (!user) return res.status(401).json({ message: 'Identifiants invalides' });
-
-    const isValid = await bcrypt.compare(password, user.password);
-    if (!isValid) return res.status(401).json({ message: 'Mot de passe incorrect' });
-
-    const token = jwt.sign(
-      { email: user.email, role: user.role },
-      SECRET_KEY,
-      { expiresIn: '1h' }
-    );
-
-    res.json({ message: 'Connexion réussie', token, role: user.role });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Erreur serveur lors de la connexion' });
+    return [];
   }
 }
-);
+
+// Inscription
+app.post('/api/register', async (req, res) => {
+  const { email, password, role } = req.body;
+  if (!email || !password || !role) {
+    return res.status(400).json({ message: 'Champs requis manquants.' });
+  }
+
+  const users = readUsers();
+  const existing = users.find(u => u.email === email);
+  if (existing) {
+    return res.status(400).json({ message: 'Utilisateur déjà existant.' });
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  users.push({ email, password: hashedPassword, role });
+  fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), 'utf-8');
+
+  res.status(201).json({ message: 'Utilisateur inscrit avec succès.' });
+});
+
+// Connexion
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+  const users = readUsers();
+
+  const user = users.find(u => u.email === email);
+  if (!user) {
+    return res.status(401).json({ message: 'Email ou mot de passe invalide.' });
+  }
+
+  const match = await bcrypt.compare(password, user.password);
+  if (!match) {
+    return res.status(401).json({ message: 'Email ou mot de passe invalide.' });
+  }
+
+  res.status(200).json({ role: user.role });
+});
+
+app.listen(PORT, () => {
+  console.log(`Serveur démarré sur http://localhost:${PORT}`);
+});
