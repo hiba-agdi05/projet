@@ -10,7 +10,7 @@ Une application web pour permettre aux étudiants de passer des examens en ligne
 
 ## Installation
 ```bash
-git clone https://github.com/hiba-agdi05/proje.git
+git clone https://github.com/hiba-agdi05/projet.git
 cd projet
 npm install
 node server.js
